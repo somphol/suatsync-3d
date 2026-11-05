@@ -10,14 +10,15 @@
 | Harness | OpenCode |
 | Model | DeepSeek V4.1 Flash (`opencode-go/deepseek-v4.1-flash`) |
 | Start | 2026-11-04 22:18:18 −08:00 |
-| Snapshot | 2026-11-04 22:35 −08:00 |
-| Wall clock at snapshot | ~17 minutes |
-| Tokens at snapshot | 193,372 input · 86,083 output · 50,139 reasoning · 5,263,616 cache read · 1,819 cache write |
-| Fresh tokens at snapshot | 329,594 |
-| Reported total at snapshot | 5,626,821 |
+| Snapshot | 2026-11-04 22:40:57 −08:00 |
+| Wall clock | 22m 39s |
+| Tokens | 222,626 input · 98,420 output · 56,331 reasoning · 11,723,136 cache read · 1,819 cache write |
+| Fresh tokens | 377,377 |
+| Reported total | 12,102,332 |
+| Cost | $0 on the OpenCode Go plan |
 
-The final metrics are captured after the GitHub repositories and the skill catalog are published; the
-numbers above are an interim snapshot and are superseded by `state.json`.
+The snapshot was taken after the app and skill catalog were published and the live URLs verified. It
+excludes only the final commit that records these figures. `state.json` is the canonical numeric copy.
 
 ## What was built
 
@@ -31,6 +32,8 @@ numbers above are an interim snapshot and are superseded by `state.json`.
 - Documentation set (reproduction, architecture, content, testing, deployment, design), attribution,
   licence, contributing, security, changelog.
 - Five release screenshots.
+- A reusable skill with a working template, scaffold script and references, published in the
+  OpenCode skill catalog.
 
 ## Artifact counts
 
@@ -38,6 +41,7 @@ numbers above are an interim snapshot and are superseded by `state.json`.
 | --- | --- |
 | Source files | 3 |
 | Source lines | 3,619 (347 HTML + 771 CSS + 2,501 JS) |
+| Source bytes | 167,476 |
 | Chant display lines | 20 |
 | Verses | 15 |
 | Rounds | 9 |
@@ -48,6 +52,7 @@ numbers above are an interim snapshot and are superseded by `state.json`.
 | Browser checks | 8 DOM + 9 interaction + 1 Sync Lab + 1 console |
 | Screenshots | 5 |
 | Docs | 7 in `docs/`, plus README, AGENTS, CHANGELOG, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, ATTRIBUTION |
+| Repository files | 31 |
 
 ## Build sequence
 
@@ -62,11 +67,13 @@ numbers above are an interim snapshot and are superseded by `state.json`.
 8. Wrote the static and headless verification harnesses; fixed the dedication boundary and line-index
    test; regenerated screenshots.
 9. Wrote the release documentation and this record.
-10. Published the repository, enabled Pages, verified the live URL, then published the skill.
+10. Published the app repository, enabled Pages, verified the live boot, then published the skill to the
+    existing catalog and verified `index.json` and `SKILL.md` over HTTP.
 
 ## Verification
 
 ```text
+OK 62 checks                                   (static contract)
 PASS 27/27 in-app self-tests
 PASS 8/8 DOM checks
 PASS 9/9 interaction checks
@@ -75,15 +82,17 @@ PASS no uncaught runtime errors
 OK browser verification complete
 ```
 
-Environment: macOS 27.2, Node v26.13.0, Chrome 156.0.8078.80 headless (SwiftShader), Python 3 server.
+Live boot: HTTP 200, `data-suat-sync="ready"`, intro Pali line rendered in headless Chrome. Catalog:
+13 skills in `index.json`; `suatsync-3d-studio/SKILL.md` returns 200.
 
-Static check: run `node scripts/check.mjs`; the final count is recorded in
-[TESTING.md](TESTING.md) and `state.json`.
+Environment: macOS 27.2, Node v26.13.0, Chrome 156.0.8078.80 headless (SwiftShader), Python 3 server.
 
 ## Release
 
-- Repository: <https://github.com/somphol/suatsync-3d>
+- App repository: <https://github.com/somphol/suatsync-3d>
 - Live: <https://somphol.github.io/suatsync-3d/>
+- Skill catalog: <https://somphol.github.io/opencode-skills/>
+- Skill: <https://somphol.github.io/opencode-skills/suatsync-3d-studio/>
 - Branch: `main`, Pages root, `.nojekyll` present.
 - Licence: MIT for code; CC BY-SA 4.0 for the chant transcription and original glosses.
 - Video embedded, not redistributed.

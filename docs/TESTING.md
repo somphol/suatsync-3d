@@ -35,8 +35,28 @@ PASS no uncaught runtime errors
 OK browser verification complete
 ```
 
-`scripts/check.mjs` result is recorded below after the final documentation pass. The static check is
-intentionally strict about links: if you add a screenshot or doc, update both the file and the link.
+`scripts/check.mjs` result:
+
+```text
+OK 62 checks
+```
+
+The static check is intentionally strict about links: if you add a screenshot or doc, update both the
+file and the link.
+
+## Live deployment check
+
+After GitHub Pages reported `built`:
+
+```text
+GET https://somphol.github.io/suatsync-3d/                 200
+<title>SuatSync 3D — …</title>
+data-suat-sync="ready"
+#paliLine → นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ (3 จบ)
+```
+
+The DOM check proves the script booted and rendered a line, not merely that the host served HTML.
+Catalog: `index.json` lists 13 skills and `suatsync-3d-studio/SKILL.md` returns 200.
 
 ## Test inventory
 

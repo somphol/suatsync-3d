@@ -322,7 +322,7 @@ async function main() {
     try { ws && ws.close(); } catch (err) { /* ignore */ }
     try { browser && browser.kill("SIGKILL"); } catch (err) { /* ignore */ }
     try { server.kill("SIGKILL"); } catch (err) { /* ignore */ }
-    fs.rmSync(profile, { recursive: true, force: true });
+    try { fs.rmSync(profile, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 }); } catch (err) { /* Chrome may still release files */ }
   }
 }
 
