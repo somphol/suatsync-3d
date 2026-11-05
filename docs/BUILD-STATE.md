@@ -10,11 +10,11 @@
 | Harness | OpenCode |
 | Model | DeepSeek V4.1 Flash (`opencode-go/deepseek-v4.1-flash`) |
 | Start | 2026-11-04 22:18:18 −08:00 |
-| Snapshot | 2026-11-04 22:40:57 −08:00 |
-| Wall clock | 22m 39s |
-| Tokens | 222,626 input · 98,420 output · 56,331 reasoning · 11,723,136 cache read · 1,819 cache write |
-| Fresh tokens | 377,377 |
-| Reported total | 12,102,332 |
+| Snapshot | 2026-11-04 23:14:47 −08:00 |
+| Wall clock | 56m 29s (includes a stalled verification attempt; ~23m uninterrupted build to first release) |
+| Tokens | 229,081 input · 101,877 output · 58,080 reasoning · 13,654,400 cache read · 1,819 cache write |
+| Fresh tokens | 389,038 |
+| Reported total | 14,045,257 |
 | Cost | $0 on the OpenCode Go plan |
 
 The snapshot was taken after the app and skill catalog were published and the live URLs verified. It

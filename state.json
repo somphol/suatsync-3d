@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "session": {
     "startedAt": "2026-11-04T22:18:18-08:00",
-    "capturedAt": "2026-11-04T22:40:57-08:00",
-    "wallClockSeconds": 1359,
-    "wallClock": "22m 39s",
-    "note": "Wall clock from the OpenCode session creation to this snapshot, after both GitHub repositories were published and the live app and skill catalog were verified. It excludes only the final commit that records these figures."
+    "capturedAt": "2026-11-04T23:14:47-08:00",
+    "wallClockSeconds": 3389,
+    "wallClock": "56m 29s",
+    "note": "Wall clock from the OpenCode session creation to this snapshot, after both GitHub repositories were published and the live app and skill catalog were verified. It includes a stalled headless-verification attempt caused by Chrome process contention on the host; the uninterrupted build and documentation work up to the first release was about 23 minutes. It excludes only the final commit that records these figures."
   },
   "agent": {
     "harness": "OpenCode",
@@ -15,14 +15,14 @@
     "modelID": "deepseek-v4.1-flash"
   },
   "tokens": {
-    "input": 222626,
-    "output": 98420,
-    "reasoning": 56331,
-    "cacheRead": 11723136,
+    "input": 229081,
+    "output": 101877,
+    "reasoning": 58080,
+    "cacheRead": 13654400,
     "cacheWrite": 1819,
-    "fresh": 377377,
-    "totalReported": 12102332,
-    "capturedAt": "2026-11-04T22:40:57-08:00",
+    "fresh": 389038,
+    "totalReported": 14045257,
+    "capturedAt": "2026-11-04T23:14:47-08:00",
     "source": "OpenCode session database (session_v2 counters)",
     "note": "fresh = input + output + reasoning. totalReported also includes cache reads and writes. This is a snapshot taken before the final metrics commit, not a live meter."
   },
