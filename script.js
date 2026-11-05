@@ -259,6 +259,7 @@
       syncStart: "Starts at",
       syncHint: "Markers must move forward in time.",
       syncSaved: "Timeline saved. The karaoke follows your markers.",
+      syncResetDone: "Defaults restored. The measured verse sheet is active again.",
       syncInvalid: "Each marker must be later than the one before it.",
       syncReset: "Restore defaults",
       syncUseCurrent: "Use current",
@@ -398,6 +399,7 @@
       syncStart: "เริ่มที่",
       syncHint: "จุดกำหนดต้องเรียงจากน้อยไปมาก",
       syncSaved: "บันทึกไทม์ไลน์แล้ว คาราโอเกะจะตามจุดที่คุณกำหนด",
+      syncResetDone: "คืนค่าเริ่มต้นแล้ว กลับมาใช้ตารางเวลาบทสวดที่วัดไว้",
       syncInvalid: "จุดกำหนดแต่ละจุดต้องอยู่หลังจุดก่อนหน้า",
       syncReset: "คืนค่าเริ่มต้น",
       syncUseCurrent: "ใช้ตำแหน่งปัจจุบัน",
@@ -1565,6 +1567,7 @@
     if (el.tempoSlider) el.tempoSlider.value = String(state.settings.rate);
     if (el.versionLine) el.versionLine.textContent = "v" + VERSION;
     renderNow(force !== false);
+    if (el.lineList) renderLineList(Timeline.sectionAt(audio.position()));
   }
 
   function setLanguage(lang) {
@@ -2168,6 +2171,7 @@
     renderSyncRows();
     renderAll(true);
     if (el.syncStatus) el.syncStatus.textContent = t("syncHint");
+    toast(t("syncResetDone"));
   }
 
   function toggleFocus() {
