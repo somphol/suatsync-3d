@@ -1,0 +1,58 @@
+{
+  "project": "SuatSync 3D — Chinabunchorn 9 Recitations Chanting & Karaoke Studio",
+  "version": "1.0.0",
+  "session": {
+    "startedAt": "2026-11-04T22:18:18-08:00",
+    "capturedAt": "2026-11-04T22:35:00-08:00",
+    "wallClockSeconds": 1002,
+    "wallClock": "16m 42s",
+    "note": "Interim snapshot taken while the release docs were being written. Final metrics are captured after both GitHub repositories and the skill catalog are published and verified."
+  },
+  "agent": {
+    "harness": "OpenCode",
+    "model": "DeepSeek V4.1 Flash",
+    "providerID": "opencode-go",
+    "modelID": "deepseek-v4.1-flash"
+  },
+  "tokens": {
+    "input": 193372,
+    "output": 86083,
+    "reasoning": 50139,
+    "cacheRead": 5263616,
+    "cacheWrite": 1819,
+    "fresh": 329594,
+    "totalReported": 5626821,
+    "capturedAt": "2026-11-04T22:35:05-08:00",
+    "source": "OpenCode session database (session_v2 counters)",
+    "note": "fresh = input + output + reasoning. totalReported also includes cache reads and writes. A snapshot, not a live meter."
+  },
+  "costUsd": 0,
+  "artifacts": {
+    "sourceFiles": 3,
+    "sourceLines": 3619,
+    "sourceBytes": 168000,
+    "chantLines": 20,
+    "verses": 15,
+    "rounds": 9,
+    "timelineMarkers": 11,
+    "languages": 2,
+    "dialogs": 4,
+    "selfTests": 27,
+    "domChecks": 8,
+    "interactionChecks": 9,
+    "docs": 7,
+    "screenshots": 5
+  },
+  "verification": {
+    "static": "node scripts/check.mjs",
+    "selfTests": "27/27",
+    "domChecks": "8/8",
+    "interactionChecks": "9/9",
+    "syncLab": "PASS: 11 markers",
+    "browser": "PASS: no uncaught runtime errors",
+    "environment": "Node 26.13.0, Chrome 156.0.8078.80 headless (ANGLE/SwiftShader), macOS 27.2",
+    "liveUrl": "https://somphol.github.io/suatsync-3d/",
+    "live": "pending"
+  },
+  "credits": "Built with OpenCode and DeepSeek V4.1 Flash. Three.js r128 (MIT) via cdnjs. Chant text from Thai Wikisource (CC BY-SA 4.0). Video by Joao Felix (embedded, not redistributed). Original code, interface and bilingual glosses by Somphol Boonjing, MIT."
+}
