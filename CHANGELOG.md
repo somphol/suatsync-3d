@@ -3,6 +3,14 @@
 All notable changes to SuatSync 3D are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions use semantic versioning.
 
+## [Unreleased]
+
+### Fixed
+
+- English mode: the Thai and English translations now share the wide content column instead of the
+  English line stretching the label column and squeezing Thai into a thin strip with empty space
+  beside it.
+
 ## [1.0.0] — 2026-11-04
 
 First public release.

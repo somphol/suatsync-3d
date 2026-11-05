@@ -391,6 +391,7 @@ body::after {
   font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--gold); padding-top: 4px;
 }
+.translation-text { min-width: 0; }
 .translation p { color: var(--ink-soft); font-size: clamp(0.92rem, 1.25vw, 1.04rem); line-height: 1.62; }
 .translation p[hidden] { display: none; }
 .translation p + p { margin-top: 6px; }
