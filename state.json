@@ -29,8 +29,8 @@
   "costUsd": 0,
   "artifacts": {
     "sourceFiles": 3,
-    "sourceLines": 4077,
-    "sourceBytes": 184194,
+    "sourceLines": 4261,
+    "sourceBytes": 190800,
     "chantLines": 20,
     "verses": 15,
     "rounds": 9,
@@ -41,7 +41,7 @@
     "domChecks": 8,
     "interactionChecks": 9,
     "docs": 7,
-    "screenshots": 6,
+    "screenshots": 7,
     "repositoryFiles": 31
   },
   "verification": {

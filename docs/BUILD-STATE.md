@@ -28,11 +28,11 @@ excludes only the final commit that records these figures. `state.json` is the c
 - Three audio sources: auto-loading YouTube, local file, silent timer.
 - Progress, sittings, streaks, export, print.
 - Procedural Three.js mandala with nine round petals and fifteen verse petals.
-- Four themes, three reading sizes and four animated backdrops, persisted locally.
+- Seven themes (four dark, three light), three reading sizes and four animated backdrops, persisted locally.
 - 27 self-tests, 8 DOM checks, 9 interaction checks, 135 measured cues.
 - Documentation set (reproduction, architecture, content, testing, deployment, design), attribution,
   licence, contributing, security, changelog.
-- Six release screenshots (landing, karaoke, Roman, forest theme, ocean backdrop, mobile).
+- Seven release screenshots (landing, karaoke, Roman, forest, ocean, daylight, mobile).
 - A reusable skill with a working template, scaffold script and references, published in the
   OpenCode skill catalog.
 
@@ -41,8 +41,8 @@ excludes only the final commit that records these figures. `state.json` is the c
 | Artifact | Count |
 | --- | --- |
 | Source files | 3 |
-| Source lines | 4,077 (355 HTML + 936 CSS + 2,786 JS) |
-| Source bytes | 184,194 |
+| Source lines | 4,261 (364 HTML + 1,090 CSS + 2,807 JS) |
+| Source bytes | 190,800 |
 | Chant display lines | 20 |
 | Verses | 15 |
 | Rounds | 9 |
@@ -51,7 +51,7 @@ excludes only the final commit that records these figures. `state.json` is the c
 | Dialogs | 3 |
 | Self-tests | 27 |
 | Browser checks | 8 DOM + 9 interaction + 1 console |
-| Screenshots | 6 |
+| Screenshots | 7 |
 | Docs | 7 in `docs/`, plus README, AGENTS, CHANGELOG, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, ATTRIBUTION |
 | Repository files | 31 |
 

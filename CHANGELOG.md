@@ -25,9 +25,9 @@ All notable changes to SuatSync 3D are recorded here. The format follows
 
 ### Added
 
-- Four themes (Midnight, Emerald, Saffron, Rosewood), three reading sizes, and four animated
-  backgrounds (Night, Clouds, Ocean, Forest). Themes recolour both the interface and the Three.js
-  mandala; choices persist locally.
+- Seven themes (Midnight, Emerald, Saffron, Rosewood, Parchment, Daylight, Sandalwood), three reading
+  sizes, and four animated backgrounds (Night, Clouds, Ocean, Forest). Themes recolour both the
+  interface and the Three.js mandala; choices persist locally.
 - `data/timings.csv`: an editable 9 × 15 cue sheet. Set `start_seconds` per verse as `272.4` or
   `4:32.4`, run `node scripts/build-timings.mjs`, and `timings.js` drives exact line timing.
 - Measured Round 1 verse starts (3:38–7:29.15) are now the default. Rounds 2 and 3 start at 8:02 and

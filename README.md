@@ -25,9 +25,9 @@ No account. No build step. No analytics. Practice history stays in your browser.
   jump to its timestamp.
 - **Three sound sources.** The YouTube video loads on start, a local MP3/M4A/OGG, or a silent guide
   timer with a soft bell at each completed round.
-- **Four themes, three reading sizes, four animated backdrops.** Midnight, Emerald, Saffron and
-  Rosewood; small/medium/large chant text; night, clouds, ocean or forest atmosphere. All saved
-  locally.
+- **Seven themes, three reading sizes, four animated backdrops.** Midnight, Emerald, Saffron and
+  Rosewood, plus the light Parchment, Daylight and Sandalwood. Small/medium/large chant text; night,
+  clouds, ocean or forest atmosphere. All saved locally.
 - **A practice that remembers.** Round completion, full sittings, day streaks, lifetime minutes and a
   private JSON export.
 - **Bilingual, dual-script.** Thai or English interface; Thai Pali script or Roman transliteration;
@@ -120,9 +120,13 @@ mandala, rings, glow and particles.
 
 ## Screenshots
 
-| Roman + English | Forest theme | Ocean backdrop | Mobile |
-| --- | --- | --- | --- |
-| ![Roman transliteration](docs/screenshot-roman.png) | ![Forest theme](docs/screenshot-forest.png) | ![Ocean backdrop](docs/screenshot-ocean.png) | ![Mobile](docs/screenshot-mobile.png) |
+| Roman + English | Forest theme | Ocean backdrop |
+| --- | --- | --- |
+| ![Roman transliteration](docs/screenshot-roman.png) | ![Forest theme](docs/screenshot-forest.png) | ![Ocean backdrop](docs/screenshot-ocean.png) |
+
+| Daylight theme | Mobile | |
+| --- | --- | --- |
+| ![Daylight theme](docs/screenshot-daylight.png) | ![Mobile](docs/screenshot-mobile.png) | |
 
 ## Verification
 

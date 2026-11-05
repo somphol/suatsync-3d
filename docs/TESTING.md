@@ -135,7 +135,7 @@ These were checked by hand and should be re-checked when changing the area:
 - **Mobile Safari.** 390×844 and 360×640, safe-area padding, no horizontal scroll, Thai line wrapping,
   and the fixed transport not covering the active line at rest.
 - **Keyboard only.** Tab to every control, Space, arrows, M, F, Escape.
-- **Appearance.** Switch all four themes, all three text sizes and all four backgrounds. Confirm the
+- **Appearance.** Switch all seven themes, all three text sizes and all four backgrounds. Confirm the
   mandala palette follows the theme, the Pali/translation text scales without breaking layout, the
   backdrop animates, and the choices survive a reload.
 - **Print.** About → Print the chant. The new window should include intro, all 15 verses and

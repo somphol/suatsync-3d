@@ -50,8 +50,9 @@ close.
 ## Themes, text size and atmosphere
 
 - **Themes:** Midnight (warm gold on indigo), Emerald (jade on forest black), Saffron (amber on
-  umber), Rosewood (rose gold on plum). Themes change the CSS tokens *and* the Three.js palette, so the
-  mandala, rings, glow and particles follow the interface.
+  umber), Rosewood (rose gold on plum), plus three light themes — Parchment (ink on aged paper),
+  Daylight (slate blue on cool white) and Sandalwood (terracotta on warm ivory). Themes change the CSS
+  tokens *and* the Three.js palette, so the mandala, rings, glow and particles follow the interface.
 - **Text size:** three stored steps, driven by `--font-scale` (0.9 / 1 / 1.14). It scales the Pali
   line, Roman line, translation and list text, not the whole UI.
 - **Atmosphere:** Night (star field), Clouds (drifting sprite banks), Ocean (rising bubbles and light
