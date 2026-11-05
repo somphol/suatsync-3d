@@ -89,6 +89,11 @@ round `r = 0…8`, with the dedication at 5,537 s. Total: 5,837 s.
 
 ### Calibration
 
+For verse-level precision, edit [`../data/timings.csv`](../data/timings.csv) and run
+`npm run timings`. Each of the 135 rows has an absolute `start_seconds`; the build validates order and
+writes `timings.js`. Sync Lab remains a section-level escape hatch and takes precedence while custom
+calibration is active. See [../data/README.md](../data/README.md).
+
 1. Open **Sync Lab**.
 2. Play the video and pause at the first word of the intro (usually 0:00), each round, and the
    dedication.

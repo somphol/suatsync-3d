@@ -25,6 +25,7 @@ python3 -m http.server 8080            # then open http://localhost:8080/
 npm start                              # same server
 
 node scripts/check.mjs                 # static contract; must print "OK <n> checks"
+node scripts/build-timings.mjs         # data/timings.csv → timings.js
 node scripts/verify-browser.mjs        # headless Chrome; 27 self-tests + 8 DOM + 9 interaction checks
 node scripts/verify-browser.mjs --screenshots   # also rewrites docs/screenshot-*.png
 CHROME_PATH="/path/to/Chrome" node scripts/verify-browser.mjs
@@ -47,8 +48,10 @@ strict-mode IIFE in twelve numbered sections:
    Thai is the default language when the browser locale starts with `th`.
 4. **Persistence** — `DEFAULT_SETTINGS`, `defaultMarkers()`, `normalizeStore()`, `readStore`,
    `persist`; key `suatsync3d.v1`. Every field is normalised on read.
-5. **Timeline** — `Timeline` object: `markers()`, `sectionAt()`, `sectionEnd()`, `linesFor()`,
-   `lineAt()`, `label()`. Eleven markers, index 0 intro, 1–9 rounds, 10 dedication.
+5. **Timeline** — `Timeline` object: `markers()`, `sectionAt()`, `explicitStarts()`, `lineStart()`,
+   `lineEnd()`, `linesFor()`, `lineAt()`, `label()`. Eleven markers, index 0 intro, 1–9 rounds, 10
+   dedication. Per-verse starts can come from the generated `timings.js`; otherwise lines are weighted
+   by text length.
 6. **Audio engine** — `audio` object with a unified `position()` / `duration()` / `playAudio()` /
    `pauseAudio()` / `seekTo()` across YouTube (`YT.Player`), local `<audio>`, and a performance-clock
    timer. Soft fade, volume, rate, analyser, completion chime, consent-first YouTube loader.
@@ -74,12 +77,15 @@ strict-mode IIFE in twelve numbered sections:
 - **The 15 verses are canonical.** Edit them in `script.js` only, and keep all four fields filled.
   `scripts/check.mjs` enforces 15 verse ids and 20 complete bilingual line records (3 intro + 15
   verses + 2 dedication).
+- **`weight` is a multiplier on text length**, not a duration in seconds. Verses 9 and 15 use 1.5× and
+  1.7×. Treating the number as an absolute weight collapses those verses to under a second.
 - **Timing is estimated, never claimed as chapter data.** The source video is 5,837 s and has no
   chapters. Default markers split intro (0–240 s), nine equal rounds, dedication (from 5,537 s). If
   you change the video, change `NOMINAL_DURATION` and `defaultMarkers()`; custom markers stay absolute.
-- **Line timing is proportional to Pali length**, via `weightedTotal` and `lineAt`; there are no
-  per-line timestamps. This is what lets one dataset stretch to a different video duration. Do not
-  introduce absolute line times without migrating the calibration schema.
+- **Line timing is proportional to Pali length by default**, via `lineWeight` and `lineAt`. Exact
+  per-verse starts can be supplied in `data/timings.csv`, which builds `timings.js`; those override
+  proportional timing for complete rounds. Sync Lab calibration overrides both. Do not edit
+  `timings.js` by hand.
 - **YouTube is consent-first.** The IFrame API script and player must only be created inside
   `connectYouTube()`, which is called by a user gesture. Do not auto-connect on boot.
 - **Video is embedded, never downloaded or re-hosted.** Keep the credit and the outbound link.

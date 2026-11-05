@@ -81,6 +81,11 @@ estimates, not chapter data — the video description contains no chapters. If t
 round starts elsewhere, open **Sync Lab**, pause the video at the real start, press **Use current**,
 and save. Markers are stored in `localStorage`; nothing is uploaded.
 
+For precise verse-level sync, edit [`data/timings.csv`](data/timings.csv) and run
+`npm run timings`. The sheet holds all 135 cues (9 rounds × 15 verses) and lets you set the exact
+start of every verse. `timings.js` is generated from it; Sync Lab calibration takes precedence while
+it is active. See [data/README.md](data/README.md).
+
 ### Progress
 
 - A round is marked complete only after at least 50% of it has actually played and the playhead
@@ -138,7 +143,11 @@ The last verified run is recorded in [docs/TESTING.md](docs/TESTING.md) and
 index.html                 structure, dialogs, bilingual hooks
 style.css                  design tokens, layout, responsive, print
 script.js                  dataset, i18n, timeline, audio, renderer, 3D, tests
+timings.js                 generated per-verse cue times (load before script.js)
+data/timings.csv           editable 9 × 15 timing sheet
+data/README.md             how to measure and rebuild timings
 docs/                      architecture, reproduction, content, testing, deployment
+scripts/build-timings.mjs  CSV → timings.js, with validation
 scripts/check.mjs          static release contract
 scripts/verify-browser.mjs headless verification and screenshots
 state.json                 build record: time, tokens, verification

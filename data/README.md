@@ -1,0 +1,80 @@
+# Editable chant timings
+
+`data/timings.csv` is the human-editable source of truth for **when each verse starts**.
+`timings.js` is generated from it and loaded by the app.
+
+## What to edit
+
+Change only the `start_seconds` column. It is an absolute position in the video, in seconds from
+0:00, and may have one decimal place.
+
+| Column | Meaning |
+| --- | --- |
+| `round` | 1–9 |
+| `verse` | 1–15 |
+| `start_seconds` | **Edit this.** When the first syllable of the verse is heard |
+| `start_time` | Human-readable copy for reference; not read by the build |
+| `pali` | Full Thai Pali text, for identification |
+| `roman` | Full Roman transliteration |
+| `notes` | Free text, ignored by the build |
+
+Do not delete rows or renumber verses. The file contains 9 rounds × 15 verses = 135 rows. Any rounds
+with an incomplete set are rejected by the build.
+
+## Find a timestamp
+
+1. Open the video and the studio side by side.
+2. Pause the video on the first syllable of the verse.
+3. Read the video's current time, for example `5:42` → write `342.0`.
+4. Or use the studio's own time display/seek bar (the timer also works).
+5. Put the value in `start_seconds` and save the CSV as UTF-8.
+
+The end of a verse is the next verse's start. The last verse of a round ends at the next round's
+first verse. You do not need an end column.
+
+## Apply the edits
+
+```bash
+node scripts/build-timings.mjs
+# or
+npm run timings
+```
+
+This validates and rewrites `timings.js`. Then reload the studio.
+
+The build rejects:
+
+- a round with fewer or more than 15 verses;
+- a duplicate round/verse pair;
+- a timestamp outside 0–5837;
+- timestamps that do not increase from verse to verse and round to round.
+
+## How the app chooses a timing
+
+1. **Sync Lab calibration**, if it is active (`state.calibration.custom === true`), wins. It scales
+   sections and uses proportional lines. Restore defaults in Sync Lab to return to this sheet.
+2. **This sheet**, when the current round has 15 complete rows. It gives exact per-line starts.
+3. **Proportional fallback**, using Pali length, for any round not present or without a complete set.
+
+The sheet is committed to the repository, so corrected timings ship with the app. It is not stored in
+the browser.
+
+## Current values
+
+These are estimates derived from the default section markers and text length:
+
+- round 1 starts at 4:00.0;
+- each round is about 9:48.6;
+- rounds 2–9 are equally spaced;
+- within a round, each verse gets time proportional to its text, with verses 9 and 15 weighted longer.
+
+They are not chapter data from the video. That is exactly what this file is for.
+
+## Accuracy tips
+
+- Set the **round 1 verse 1** start first; every later value should be later than it.
+- Use the same playback speed (1.00×) while measuring.
+- Write down the first syllable, not the end of the previous verse.
+- If the video has announcements or pauses between rounds, put the gap before the next round's first
+  verse; the app simply waits on the previous line until the next start.
+- Check a few values by clicking the line in the app: it should seek to that timestamp.

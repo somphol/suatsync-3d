@@ -111,19 +111,41 @@ preserving a measured calibration.
 
 ### 3.3 Line timing inside a section
 
-There are no per-line timestamps. For section `s` with start `a`, end `b`, and lines `L`:
+If no explicit cue sheet exists (or Sync Lab is active), for section `s` with start `a`, end `b`, and
+lines `L`:
 
 ```text
+weight(line) = max(30, pali length without spaces) × (line.weight || 1)
 total = Σ weight(line)
 local = clamp(t - a, 0, b - a)
 lineStart(i) = a + (Σ weight before i / total) · (b - a)
 lineEnd(i)   = a + (Σ weight through i / total) · (b - a)
 ```
 
+`weight` is a **multiplier**, never an absolute weight. The reference dataset uses 1.5× for verse 9
+and 1.7× for verse 15. A bug that treated those as absolute values gave both verses under one second;
+if you reimplement this, add a test or inspect the computed starts.
+
 `lineAt(t)` returns the section, index, line, section bounds, line bounds and progress. This makes the
 dataset portable and survives tempo changes because the media clock is the source of truth.
 
-### 3.4 Calibration contract
+### 3.4 Explicit verse cues
+
+For real per-verse sync, `data/timings.csv` holds 135 rows (9 rounds × 15 verses) with a
+`start_seconds` column. `scripts/build-timings.mjs` validates it and writes `timings.js` as
+`window.SUAT_TIMINGS = { rounds: { "1": [start, …] } }`, loaded before `script.js`.
+
+Precedence:
+
+1. Sync Lab calibration (`custom: true`) — section markers + proportional lines.
+2. Explicit cue sheet for a complete round — exact line starts, next start = line end.
+3. Proportional fallback.
+
+The CSV is the master; `timings.js` is generated and must not be hand-edited. Rounds with fewer than
+15 rows are rejected. The sheet is versioned with the app, so corrections ship to every visitor. See
+`data/README.md`.
+
+### 3.5 Calibration contract
 
 `state.calibration = { custom: false|true, markers: [11 numbers] }`.
 Validation requires finite, non-negative, strictly increasing values and a final marker above 60 s.

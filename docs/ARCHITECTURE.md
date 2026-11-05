@@ -94,13 +94,17 @@ older than 24 hours is cleared on boot (lifetime stats remain).
 | `markers()` | 11 absolute seconds; scaled defaults or custom |
 | `sectionAt(t)` | 0 intro, 1–9 rounds, 10 dedication |
 | `sectionStart/End/Duration(s)` | Boundaries derived from markers |
+| `explicitStarts(s)` | 15 absolute verse starts from `timings.js`, or `null` |
+| `lineStart(s,i)` / `lineEnd(s,i)` | Exact cue bounds, explicit or weighted |
 | `linesFor(s)` | `INTRO`, `VERSES`, `OUTRO` |
 | `lineAt(t)` | Current line plus section/line bounds and 0–1 progress |
 | `label(s)` | Localised section name |
 
-Sections are contiguous: there is no gap. `lineAt` allocates each line a span proportional to
-`weight || max(30, pali.length without spaces)`. No absolute line timestamps exist, so all lines move
-together when the duration or markers change.
+Sections are contiguous: there is no gap. Without an explicit cue sheet, `lineAt` allocates each line
+a span proportional to `max(30, pali.length without spaces) × (weight || 1)`. With
+`data/timings.csv` → `timings.js`, complete rounds use absolute per-verse starts instead. Explicit
+starts are ignored while Sync Lab calibration is custom, so the markers remain an escape hatch. The
+generated file is loaded before `script.js` as `window.SUAT_TIMINGS`.
 
 ## Audio adapter
 

@@ -10,6 +10,14 @@ All notable changes to SuatSync 3D are recorded here. The format follows
 - English mode: the Thai and English translations now share the wide content column instead of the
   English line stretching the label column and squeezing Thai into a thin strip with empty space
   beside it.
+- `weight` on verses 9 and 15 is now applied as a multiplier. It had been treated as an absolute
+  weight, giving both long verses less than a second of cue time and skewing every other verse.
+
+### Added
+
+- `data/timings.csv`: an editable 9 × 15 cue sheet. Set `start_seconds` per verse, run
+  `node scripts/build-timings.mjs`, and `timings.js` drives exact line timing. Sync Lab still takes
+  precedence while active.
 
 ## [1.0.0] — 2026-11-04
 

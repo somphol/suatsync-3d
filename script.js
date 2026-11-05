@@ -513,8 +513,14 @@
     return nav.indexOf("th") === 0 ? "th" : "en";
   }
 
+  function lineWeight(line) {
+    var base = Math.max(30, line.pali.replace(/\s+/g, "").length);
+    var multiplier = isFiniteNumber(line.weight) && line.weight > 0 ? line.weight : 1;
+    return base * multiplier;
+  }
+
   function weightedTotal(lines) {
-    return lines.reduce(function (sum, line) { return sum + (line.weight || Math.max(30, line.pali.replace(/\s+/g, "").length)); }, 0);
+    return lines.reduce(function (sum, line) { return sum + lineWeight(line); }, 0);
   }
 
   /* -------------------------------------------------------- 4. PERSISTENCE */
@@ -683,6 +689,44 @@
       return s;
     },
 
+    explicitStarts: function (section) {
+      if (section < 1 || section > 9) return null;
+      if (state.calibration.custom) return null;
+      var data = window.SUAT_TIMINGS;
+      if (!data || !data.rounds) return null;
+      var starts = data.rounds[String(section)];
+      if (!Array.isArray(starts) || starts.length !== 15) return null;
+      return starts;
+    },
+
+    lineStart: function (section, index) {
+      var start = Timeline.sectionStart(section);
+      var end = Timeline.sectionEnd(section);
+      var lines = Timeline.linesFor(section);
+      var safe = clamp(index, 0, lines.length - 1);
+      var explicit = Timeline.explicitStarts(section);
+      if (explicit) return clamp(explicit[safe], start, end);
+      var total = weightedTotal(lines);
+      var offset = 0;
+      for (var i = 0; i < safe; i++) offset += lineWeight(lines[i]);
+      return start + (offset / total) * (end - start);
+    },
+
+    lineEnd: function (section, index) {
+      var start = Timeline.sectionStart(section);
+      var end = Timeline.sectionEnd(section);
+      var lines = Timeline.linesFor(section);
+      var safe = clamp(index, 0, lines.length - 1);
+      var explicit = Timeline.explicitStarts(section);
+      if (explicit) {
+        return safe + 1 < explicit.length ? clamp(explicit[safe + 1], start, end) : end;
+      }
+      var total = weightedTotal(lines);
+      var offset = 0;
+      for (var i = 0; i < safe; i++) offset += lineWeight(lines[i]);
+      return start + ((offset + lineWeight(lines[safe])) / total) * (end - start);
+    },
+
     lineAt: function (time) {
       var dur = Timeline.duration();
       var t = clamp(isFiniteNumber(time) ? time : 0, 0, dur);
@@ -690,23 +734,32 @@
       var start = Timeline.sectionStart(section);
       var end = Timeline.sectionEnd(section);
       var lines = Timeline.linesFor(section);
-      var total = weightedTotal(lines);
-      var span = Math.max(1, end - start);
-      var local = clamp(t - start, 0, span);
-      var acc = 0;
       var index = lines.length - 1;
-      for (var i = 0; i < lines.length; i++) {
-        var w = lines[i].weight || Math.max(30, lines[i].pali.replace(/\s+/g, "").length);
-        var lineSpan = (w / total) * span;
-        if (local < acc + lineSpan || i === lines.length - 1) {
-          index = i;
-          break;
+      var explicit = Timeline.explicitStarts(section);
+
+      if (explicit) {
+        index = 0;
+        for (var e = 0; e < explicit.length; e++) {
+          if (t >= explicit[e]) index = e;
         }
-        acc += lineSpan;
+      } else {
+        var total = weightedTotal(lines);
+        var span = Math.max(1, end - start);
+        var local = clamp(t - start, 0, span);
+        var acc = 0;
+        for (var i = 0; i < lines.length; i++) {
+          var lineSpan = (lineWeight(lines[i]) / total) * span;
+          if (local < acc + lineSpan || i === lines.length - 1) {
+            index = i;
+            break;
+          }
+          acc += lineSpan;
+        }
       }
-      var weight = lines[index].weight || Math.max(30, lines[index].pali.replace(/\s+/g, "").length);
-      var lineStart = start + (acc / total) * span;
-      var lineEnd = start + ((acc + weight) / total) * span;
+
+      var lineStart = Timeline.lineStart(section, index);
+      var lineEnd = Timeline.lineEnd(section, index);
+      if (lineEnd <= lineStart) lineEnd = Math.min(end, lineStart + 0.5);
       return {
         section: section,
         index: index,
@@ -1318,16 +1371,9 @@
   function renderLineList(section) {
     if (!el.lineList) return;
     var lines = Timeline.linesFor(section);
-    var start = Timeline.sectionStart(section);
-    var end = Timeline.sectionEnd(section);
-    var span = Math.max(1, end - start);
-    var total = weightedTotal(lines);
-    var offset = 0;
     el.lineList.innerHTML = "";
     lines.forEach(function (line, index) {
-      var weight = line.weight || Math.max(30, line.pali.replace(/\s+/g, "").length);
-      var lineStart = start + (offset / total) * span;
-      offset += weight;
+      var lineStart = Timeline.lineStart(section, index);
       var item = document.createElement("li");
       item.className = "line-item";
       item.setAttribute("data-index", String(index));
@@ -1555,19 +1601,8 @@
     var target = Timeline.lineAt(audio.position());
     var safeIndex = clamp(Number(index) || 0, 0, lines.length - 1);
     if (safeIndex !== target.index) {
-      // Recompute the exact start of the chosen line from section geometry.
-      var start = Timeline.sectionStart(section);
-      var span = Math.max(1, Timeline.sectionEnd(section) - start);
-      var total = weightedTotal(lines);
-      var offset = 0;
-      for (var i = 0; i < safeIndex; i++) {
-        var line = lines[i];
-        offset += line.weight || Math.max(30, line.pali.replace(/\s+/g, "").length);
-      }
-      var chosen = lines[safeIndex];
-      var weight = chosen.weight || Math.max(30, chosen.pali.replace(/\s+/g, "").length);
-      var lineStart = start + (offset / total) * span;
-      var lineEnd = start + ((offset + weight) / total) * span;
+      var lineStart = Timeline.lineStart(section, safeIndex);
+      var lineEnd = Timeline.lineEnd(section, safeIndex);
       seekTo(lineStart + Math.min(0.4, (lineEnd - lineStart) * 0.05), true);
     }
     renderNow(true);
