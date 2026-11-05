@@ -60,7 +60,7 @@ Key: `localStorage["suatsync3d.v1"]`.
   },
   "calibration": {
     "custom": false,
-    "markers": [0, 218, 809, 1400, …, 5537]   // exactly 11, strictly increasing
+    "markers": [0, 218, 482, 746, …, 2594]   // exactly 11, strictly increasing
   },
   "session": {
     "startedAt": "ISO",

@@ -73,22 +73,21 @@ and a dedication at the end. They are **not** measured from the audio.
 | Section | Starts at | Length |
 | --- | --- | --- |
 | Intro | 0:00 | 3:38 |
-| Round 1 | 3:38 | 9:51 |
-| Round 2 | 13:29 | 9:51 |
-| Round 3 | 23:20 | 9:51 |
-| Round 4 | 33:11 | 9:51 |
-| Round 5 | 43:02 | 9:51 |
-| Round 6 | 52:53 | 9:51 |
-| Round 7 | 1:02:44 | 9:51 |
-| Round 8 | 1:12:35 | 9:51 |
-| Round 9 | 1:22:26 | 9:51 |
-| Dedication | 1:32:17 | 5:00 |
+| Round 1 | 3:38 | 4:24 |
+| Round 2 | 8:02 | 4:24 |
+| Round 3 | 12:26 | 4:24 |
+| Round 4 | 16:50 | 4:24 |
+| Round 5 | 21:14 | 4:24 |
+| Round 6 | 25:38 | 4:24 |
+| Round 7 | 30:02 | 4:24 |
+| Round 8 | 34:26 | 4:24 |
+| Round 9 | 38:50 | 4:24 |
+| Dedication | 43:14 | remainder |
 
-The exact seconds are in `defaultMarkers()`; they are computed as `218 + (5537 − 218) × r / 9` for
-round `r = 0…8`, with the dedication at 5,537 s. Total: 5,837 s. The 3:38 anchor comes from the
-measured start of Round 1 verse 1; the remaining round starts are equally spaced estimates. The
-per-verse starts in `data/timings.csv` are the measured Round 1 pattern reused for every round, so
-replace any round anchor you measure.
+The exact seconds are in `defaultMarkers()`; they are computed as `218 + (2594 − 218) × r / 9` for
+round `r = 0…8`, with the dedication at 2,594 s. The first three round anchors (3:38, 8:02, 12:26) are
+measured; the rest follow the same 4:24 spacing. Each round's 15 verses occupy the first 3:51, followed
+by a 32.85-second gap. Per-verse starts live in `data/timings.csv`; replace any anchor you measure.
 
 ### Calibration
 

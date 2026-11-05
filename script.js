@@ -537,7 +537,7 @@
 
   function defaultMarkers() {
     var intro = 218;   // round 1 verse 1 at 3:38, measured from the source video
-    var outro = 5537;
+    var outro = 2594;  // 43:14, inferred from the 4:24 round spacing
     var out = [0];
     for (var r = 0; r < 9; r++) out.push(intro + ((outro - intro) * r) / 9);
     out.push(outro);

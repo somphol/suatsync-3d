@@ -68,16 +68,16 @@ the browser.
 
 ## Current values
 
-Round 1 is measured; the same relative verse pattern is reused for all nine rounds, anchored at the
-estimated round starts:
+Round 1 is measured; rounds 2 and 3 start at 8:02 and 12:26. The spacing is exactly 4:24, so the same
+relative verse pattern is reused for all nine rounds:
 
-- round 1 verse 1 starts at 3:38;
-- each round is about 9:51, with the chant pattern occupying the first 3:51;
-- round anchors: 3:38, 13:29, 23:20, 33:11, 43:02, 52:53, 1:02:44, 1:12:35, 1:22:26;
-- dedication at 1:32:17.
+- Round 1 verse 1 starts at 3:38;
+- each round is 4:24, with the chant pattern occupying the first 3:51;
+- round anchors: 3:38, 8:02, 12:26, 16:50, 21:14, 25:38, 30:02, 34:26, 38:50;
+- dedication at 43:14.
 
-These are a usable first pass, not chapter data from the video. Replace the round anchors in
-`script.js` (`defaultMarkers()`) or edit each row when you measure the later rounds.
+The first three anchors are measured; the rest are inferred from the 4:24 spacing. They are a usable
+first pass, not chapter data from the video. Replace any row or anchor you measure.
 
 ## Accuracy tips
 

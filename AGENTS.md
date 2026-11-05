@@ -80,10 +80,9 @@ strict-mode IIFE in twelve numbered sections:
 - **`weight` is a multiplier on text length**, not a duration in seconds. Verses 9 and 15 use 1.5× and
   1.7×. Treating the number as an absolute weight collapses those verses to under a second.
 - **Timing is estimated, never claimed as chapter data.** The source video is 5,837 s and has no
-  chapters. Default markers split intro (0–218 s), nine equal rounds of 591 s, dedication (from
-  5,537 s). Round 1 verse 1 is measured at 3:38; the remaining round anchors are equally spaced
-  estimates. If you change the video, change `NOMINAL_DURATION` and `defaultMarkers()`; custom markers
-  stay absolute.
+  chapters. Default markers split intro (0–218 s), nine 4:24 rounds, dedication (from 43:14). Round
+  anchors 3:38, 8:02 and 12:26 are measured; the remainder follow the same 4:24 spacing. If you
+  change the video, change `NOMINAL_DURATION` and `defaultMarkers()`; custom markers stay absolute.
 - **Line timing is proportional to Pali length by default**, via `lineWeight` and `lineAt`. Exact
   per-verse starts can be supplied in `data/timings.csv`, which builds `timings.js`; those override
   proportional timing for complete rounds. Sync Lab calibration overrides both. Do not edit
