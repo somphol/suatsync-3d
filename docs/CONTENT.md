@@ -89,29 +89,22 @@ round `r = 0…8`, with the dedication at 2,594 s. The first three round anchors
 measured; the rest follow the same 4:24 spacing. Each round's 15 verses occupy the first 3:51, followed
 by a 32.85-second gap. Per-verse starts live in `data/timings.csv`; replace any anchor you measure.
 
-### Calibration
+### Refining timings
 
-For verse-level precision, edit [`../data/timings.csv`](../data/timings.csv) and run
-`npm run timings`. Each of the 135 rows has an absolute `start_seconds`; the build validates order and
-writes `timings.js`. Sync Lab remains a section-level escape hatch and takes precedence while custom
-calibration is active. See [../data/README.md](../data/README.md).
+1. Play the video and pause at the first syllable of a verse.
+2. Put that time in the matching `start_seconds` cell in [`../data/timings.csv`](../data/timings.csv),
+   as `3:54` or `234`.
+3. Run `npm run timings`. The build validates order and rewrites `timings.js`.
+4. Reload the studio.
 
-1. Open **Sync Lab**.
-2. Play the video and pause at the first word of the intro (usually 0:00), each round, and the
-   dedication.
-3. Press **Use current** on the matching row.
-4. Save. Markers must increase strictly; the app refuses overlaps.
-5. `Restore defaults` returns to the estimates above.
+There is no in-app calibration screen; the CSV is the timing authority. It is committed with the app,
+so corrections ship to every visitor. See [../data/README.md](../data/README.md).
 
-Calibration is stored per browser. It is not part of the public dataset and is not exported with the
-project.
+### Why proportional fallback
 
-### Why proportional line timing
-
-The chant has no published per-line timestamps for this video, and a teacher's pauses vary. Assigning
-each line a share of its section proportional to its Pali length gives a stable, readable approximation
-that adapts to any duration. If you later obtain real timestamps, extend the line schema with
-`start`/`end` and update `lineAt`; keep the current fallback for uncalibrated data.
+Explicit verse starts cover rounds 1–9. The intro and dedication still use a proportional split based
+on text length, as does any round missing from the sheet. This keeps the timeline usable if you add a
+new recording or remove a round while editing.
 
 ## Translation policy
 

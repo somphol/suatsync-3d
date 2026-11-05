@@ -7,8 +7,8 @@ Three layers, all dependency-free.
 | Layer | Command | Proves |
 | --- | --- | --- |
 | Static contract | `node scripts/check.mjs` | Files, local links, syntax, dataset counts, pinned dependencies, hygiene, package metadata |
-| In-app self-tests | `node scripts/verify-browser.mjs` → `SuatSync.runSelfTests()` | Timeline maths, calibration validation, streak arithmetic, storage normalisation, i18n completeness, DOM wiring |
-| Browser integration | `node scripts/verify-browser.mjs` | Real layout, WebGL, timer transport, seek-to-line, round tracking, reset, Sync Lab, console errors |
+| In-app self-tests | `node scripts/verify-browser.mjs` → `SuatSync.runSelfTests()` | Timeline maths, timing-sheet integrity, streak arithmetic, storage normalisation, i18n completeness, DOM wiring |
+| Browser integration | `node scripts/verify-browser.mjs` | Real layout, WebGL, timer transport, seek-to-line, round tracking, reset, console errors |
 
 Screenshots are regenerated with the same harness:
 
@@ -30,7 +30,6 @@ node scripts/verify-browser.mjs --screenshots
 PASS 27/27 in-app self-tests
 PASS 8/8 DOM checks
 PASS 9/9 interaction checks
-PASS Sync Lab opens with 11 markers
 PASS no uncaught runtime errors
 OK browser verification complete
 ```
@@ -68,8 +67,8 @@ Catalog: `index.json` lists 13 skills and `suatsync-3d-studio/SKILL.md` returns 
 4. verse ids unique
 5. 11 default markers
 6. default markers strictly increase
-7. calibration validator rejects a flat line
-8. calibration validator accepts a ramp
+7. timing sheet has nine complete rounds
+8. timing sheet starts strictly increase
 9. `sectionAt(0)` is the intro
 10. `sectionAt(round 1 + 1s)` is round 1
 11. `sectionAt(end − 1s)` is the dedication
@@ -83,7 +82,7 @@ Catalog: `index.json` lists 13 skills and `suatsync-3d-studio/SKILL.md` returns 
 19. an incomplete sitting does not count toward a streak
 20. blank data normalises to nine empty rounds
 21. volume 1000 → 100 and rate 20 → 1.25
-22. malformed calibration is replaced by 11 defaults
+22. timing sheet anchors match the section markers
 23. every static i18n key exists in English and Thai
 24. nine round labels resolve without `{n}`
 25. nine round controls render
@@ -96,10 +95,10 @@ Catalog: `index.json` lists 13 skills and `suatsync-3d-studio/SKILL.md` returns 
 - 11 section jumps
 - WebGL mandala ready
 - canvas at the 1440×900 viewport
-- YouTube consent placeholder visible on boot
+- video loading/reconnect panel visible on boot
 - 3 source tabs
-- 4 dialogs
-- intro line rendered
+- 3 dialogs
+- opening verse rendered
 
 ### Interaction (9)
 
@@ -113,11 +112,12 @@ Catalog: `index.json` lists 13 skills and `suatsync-3d-studio/SKILL.md` returns 
 - `resetSession(true)` clears the sitting
 - switching back to Thai renders Thai text
 
-### Sync Lab
+### Timing sheet
 
-- opens modally
-- renders 11 rows and 11 numeric inputs
-- cancel closes without changing calibration
+- 9 rounds × 15 starts load from `timings.js`
+- every round's starts strictly increase
+- every round's first start matches its section marker
+- the browser harness runs with `?noauto=1`, so YouTube is not contacted in CI
 
 ### Console
 
@@ -127,14 +127,17 @@ Any uncaught exception or `console.error` fails the run, except known benign GPU
 
 These were checked by hand and should be re-checked when changing the area:
 
-- **YouTube on demand.** Press Connect on a normal browser. Confirm the iframe appears, the button is
-  pressed after a gesture, the player responds to play/pause/seek/volume/rate, and closing/reloading
-  does not create a player before Connect.
+- **YouTube on start.** Open the normal URL without `?noauto=1`. Confirm the player loads paused,
+  seeks to Round 1 verse 1, and responds to play/pause/seek/volume/rate. If blocked, confirm the
+  reconnect button appears and the timer/file still work.
 - **Local file.** Load an MP3 and an M4A. Confirm metadata, seek, tempo, mute, analyser pulse and that
   no network request carries the file.
 - **Mobile Safari.** 390×844 and 360×640, safe-area padding, no horizontal scroll, Thai line wrapping,
   and the fixed transport not covering the active line at rest.
 - **Keyboard only.** Tab to every control, Space, arrows, M, F, Escape.
+- **Appearance.** Switch all four themes, all three text sizes and all four backgrounds. Confirm the
+  mandala palette follows the theme, the Pali/translation text scales without breaking layout, the
+  backdrop animates, and the choices survive a reload.
 - **Print.** About → Print the chant. The new window should include intro, all 15 verses and
   dedication, and print legibly in black on white.
 - **Storage blocked.** Disable site data; the app should still chant and show the warning toast.
@@ -144,8 +147,8 @@ These were checked by hand and should be re-checked when changing the area:
 
 - Headless Chrome uses SwiftShader, so frame rate and visual fidelity differ from a GPU browser.
   Screenshots are still valid for layout, but not for performance.
-- YouTube is deliberately not loaded in CI because it needs a user gesture, network and consent. Its
-  integration is verified manually.
+- YouTube is disabled in CI with `?noauto=1`; its integration is verified manually. The harness never
+  depends on network video loading.
 - The analyser path is exercised only when a local file is chosen; the harness uses the timer.
 - No automated axe/Lighthouse pass is included. The app uses semantic landmarks, labels, focus styles
   and reduced-motion rules, but a screen-reader pass is manual.

@@ -24,14 +24,15 @@ excludes only the final commit that records these figures. `state.json` is the c
 
 - Three-file static app: `index.html`, `style.css`, `script.js`.
 - 20 complete chant lines (3 intro, 15 verses, 2 dedication) in Thai Pali, Roman, Thai and English.
-- Eleven-marker timeline with proportional line timing and a calibration dialog.
-- Three audio sources: consent-gated YouTube, local file, silent timer.
+- Eleven-marker timeline with measured verse cues from `data/timings.csv`; no in-app calibration.
+- Three audio sources: auto-loading YouTube, local file, silent timer.
 - Progress, sittings, streaks, export, print.
 - Procedural Three.js mandala with nine round petals and fifteen verse petals.
-- 27 self-tests, 8 DOM checks, 9 interaction checks, 11 Sync Lab markers.
+- Four themes, three reading sizes and four animated backdrops, persisted locally.
+- 27 self-tests, 8 DOM checks, 9 interaction checks, 135 measured cues.
 - Documentation set (reproduction, architecture, content, testing, deployment, design), attribution,
   licence, contributing, security, changelog.
-- Five release screenshots.
+- Six release screenshots (landing, karaoke, Roman, forest theme, ocean backdrop, mobile).
 - A reusable skill with a working template, scaffold script and references, published in the
   OpenCode skill catalog.
 
@@ -40,17 +41,17 @@ excludes only the final commit that records these figures. `state.json` is the c
 | Artifact | Count |
 | --- | --- |
 | Source files | 3 |
-| Source lines | 3,619 (347 HTML + 771 CSS + 2,501 JS) |
-| Source bytes | 167,476 |
+| Source lines | 4,077 (355 HTML + 936 CSS + 2,786 JS) |
+| Source bytes | 184,194 |
 | Chant display lines | 20 |
 | Verses | 15 |
 | Rounds | 9 |
 | Sections / markers | 11 |
 | i18n languages | 2 |
-| Dialogs | 4 |
+| Dialogs | 3 |
 | Self-tests | 27 |
-| Browser checks | 8 DOM + 9 interaction + 1 Sync Lab + 1 console |
-| Screenshots | 5 |
+| Browser checks | 8 DOM + 9 interaction + 1 console |
+| Screenshots | 6 |
 | Docs | 7 in `docs/`, plus README, AGENTS, CHANGELOG, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, ATTRIBUTION |
 | Repository files | 31 |
 
@@ -60,10 +61,10 @@ excludes only the final commit that records these figures. `state.json` is the c
    Wikisource.
 2. Authored the 20-line bilingual dataset and the eleven-marker timing model.
 3. Built the three-column interface and design tokens, then the karaoke renderer and line list.
-4. Added the unified audio adapter, consent-gated YouTube loader, local file path and timer.
+4. Added the unified audio adapter, auto-loading YouTube player, local file path and timer.
 5. Added progress, streaks, export and print.
 6. Built the procedural mandala and wired round petals to session state.
-7. Added Sync Lab, i18n coverage and keyboard access.
+7. Added the timing sheet pipeline, i18n coverage and keyboard access.
 8. Wrote the static and headless verification harnesses; fixed the dedication boundary and line-index
    test; regenerated screenshots.
 9. Wrote the release documentation and this record.
@@ -77,7 +78,6 @@ OK 62 checks                                   (static contract)
 PASS 27/27 in-app self-tests
 PASS 8/8 DOM checks
 PASS 9/9 interaction checks
-PASS Sync Lab opens with 11 markers
 PASS no uncaught runtime errors
 OK browser verification complete
 ```

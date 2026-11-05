@@ -58,13 +58,12 @@ The build rejects:
 
 ## How the app chooses a timing
 
-1. **Sync Lab calibration**, if it is active (`state.calibration.custom === true`), wins. It scales
-   sections and uses proportional lines. Restore defaults in Sync Lab to return to this sheet.
-2. **This sheet**, when the current round has 15 complete rows. It gives exact per-line starts.
-3. **Proportional fallback**, using Pali length, for any round not present or without a complete set.
+1. **This sheet**, when the current round has 15 complete rows. It gives exact per-line starts.
+2. **Proportional fallback**, using Pali length, for the intro, dedication, or any round not present
+   or without a complete set.
 
-The sheet is committed to the repository, so corrected timings ship with the app. It is not stored in
-the browser.
+There is no in-app calibration screen. The sheet is committed to the repository, so corrected timings
+ship with the app. It is not stored in the browser.
 
 ## Current values
 

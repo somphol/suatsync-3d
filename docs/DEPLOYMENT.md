@@ -72,12 +72,11 @@ curl -s -o /dev/null -w "%{http_code}\n" https://somphol.github.io/suatsync-3d/d
 
 Then open the live page and check:
 
-1. The mandala renders and the intro line is visible.
+1. The mandala renders and the studio opens at Round 1, verse 1 (3:38).
 2. Thai/English and Thai/Roman toggles work.
-3. Timer play advances the line and the clock.
-4. Sync Lab opens with 11 rows.
-5. Connect YouTube (optional) and confirm the iframe loads only after the click.
-6. No console errors.
+3. The YouTube player loads paused; press play and confirm it starts at 3:38.
+4. Switch to Timer and confirm the clock advances and the lines follow.
+5. No console errors.
 
 ## Cache behaviour
 

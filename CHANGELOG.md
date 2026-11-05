@@ -13,11 +13,23 @@ All notable changes to SuatSync 3D are recorded here. The format follows
 - `weight` on verses 9 and 15 is now applied as a multiplier. It had been treated as an absolute
   weight, giving both long verses less than a second of cue time and skewing every other verse.
 
+### Changed
+
+- Sync Lab has been removed. The measured `data/timings.csv` sheet is now the single timing authority;
+  there is no in-browser calibration state to override it.
+- The YouTube player loads automatically on start, paused, and seeks to Round 1 verse 1. If YouTube is
+  blocked, a reconnect button and the timer/file sources remain.
+- The studio opens on Round 1, verse 1 instead of the intro.
+- The line list refreshes when the timing source changes, so restoring defaults no longer leaves stale
+  3:52-style proportional times on screen.
+
 ### Added
 
+- Four themes (Midnight, Emerald, Saffron, Rosewood), three reading sizes, and four animated
+  backgrounds (Night, Clouds, Ocean, Forest). Themes recolour both the interface and the Three.js
+  mandala; choices persist locally.
 - `data/timings.csv`: an editable 9 × 15 cue sheet. Set `start_seconds` per verse as `272.4` or
-  `4:32.4`, run `node scripts/build-timings.mjs`, and `timings.js` drives exact line timing. Sync Lab
-  still takes precedence while active.
+  `4:32.4`, run `node scripts/build-timings.mjs`, and `timings.js` drives exact line timing.
 - Measured Round 1 verse starts (3:38–7:29.15) are now the default. Rounds 2 and 3 start at 8:02 and
   12:26, revealing a 4:24 round; the same pattern is reused for all nine rounds, with the dedication
   inferred at 43:14.

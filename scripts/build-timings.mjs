@@ -8,7 +8,7 @@
  * `start_seconds` the only field you normally change. The generated file is
  * loaded before script.js and, when present, replaces proportional line timing
  * for the rounds it contains. Rounds without a complete 15-verse set fall back
- * to the weighted model. Sync Lab calibration takes precedence over both.
+ * to the weighted model.
  */
 import fs from "node:fs";
 import path from "node:path";

@@ -17,14 +17,17 @@ No account. No build step. No analytics. Practice history stays in your browser.
 
 ## What it does
 
+- **Measured verse timings.** The 15 cue points for Round 1 are measured, and the same relative pattern is spaced across all nine rounds. Edit `data/timings.csv` to refine them.
+- **Starts at Round 1, verse 1.** The studio opens on the chant rather than the intro; the intro and dedication remain one click away.
 - **Nine full recitations.** Fifteen Chinabunchorn verses per round, with the Namo, the traditional
   homage and a dedication (แผ่เมตตา) at the close.
 - **Karaoke that follows the sound.** The active line grows brighter as it plays; click any line to
   jump to its timestamp.
-- **Three sound sources.** The official YouTube video, a local MP3/M4A/OGG, or a silent guide timer
-  with a soft bell at each completed round.
-- **Calibration when the video differs.** Sync Lab stores the start of the intro, each of the nine
-  rounds and the dedication, so the text can match any edition.
+- **Three sound sources.** The YouTube video loads on start, a local MP3/M4A/OGG, or a silent guide
+  timer with a soft bell at each completed round.
+- **Four themes, three reading sizes, four animated backdrops.** Midnight, Emerald, Saffron and
+  Rosewood; small/medium/large chant text; night, clouds, ocean or forest atmosphere. All saved
+  locally.
 - **A practice that remembers.** Round completion, full sittings, day streaks, lifetime minutes and a
   private JSON export.
 - **Bilingual, dual-script.** Thai or English interface; Thai Pali script or Roman transliteration;
@@ -50,9 +53,8 @@ YouTube IFrame API requires an `http(s)` origin, so use a local server for video
 
 ### First chant
 
-1. Choose **YouTube**, **My audio** or **Timer** in the Sound panel.
-2. Press **Play**. With YouTube, press **Connect the video** first — the embed is not loaded before
-   that, so no YouTube cookie is set until you ask.
+1. The YouTube player loads when the page opens. Choose **YouTube**, **My audio** or **Timer** in the Sound panel.
+2. Press **Play**. If YouTube is blocked, use **Reconnect video**, the timer, or a local file.
 3. Chant the highlighted line. The list below shows the rest of the round; click a line to seek.
 4. Finish all nine rounds. The mandala lights one petal per round and records the sitting.
 
@@ -70,21 +72,19 @@ YouTube IFrame API requires an `http(s)` origin, so use a local server for video
 | My audio | Plays a local file via an object URL; it never leaves the tab |
 | Timer | A silent media clock with an optional completion chime |
 
-### Karaoke and Sync Lab
+### Karaoke and timings
 
 The timeline is a set of eleven markers: intro, rounds 1–9, dedication. Inside a section, each line
 receives a slice of time proportional to its Pali length. That makes the dataset portable and lets the
 same verses stretch or compress with the audio.
 
-Default markers assume the source video's measured length of **5,837 seconds (1:37:17)**. They are
-estimates, not chapter data — the video description contains no chapters. If the spoken intro or a
-round starts elsewhere, open **Sync Lab**, pause the video at the real start, press **Use current**,
-and save. Markers are stored in `localStorage`; nothing is uploaded.
+Default markers assume the source video's measured length of **5,837 seconds (1:37:17)**. Round 1
+starts at **3:38**, round 2 at **8:02**, and the spacing is 4:24 per round. Timings are not chapter data
+from the video; they are the measured verse sheet plus the same relative pattern for later rounds.
 
 For precise verse-level sync, edit [`data/timings.csv`](data/timings.csv) and run
 `npm run timings`. The sheet holds all 135 cues (9 rounds × 15 verses) and lets you set the exact
-start of every verse. `timings.js` is generated from it; Sync Lab calibration takes precedence while
-it is active. See [data/README.md](data/README.md).
+start of every verse. `timings.js` is generated from it. See [data/README.md](data/README.md).
 
 ### Progress
 
@@ -93,7 +93,7 @@ it is active. See [data/README.md](data/README.md).
 - Finishing all nine rounds records a sitting, updates the streak and opens a summary.
 - Streaks are consecutive calendar days with a completed nine-round sitting.
 - `Reset this sitting` clears the current nine rounds without touching history.
-- **Session history → Export JSON** downloads settings, calibration, totals and sittings.
+- **Session history → Export JSON** downloads settings, totals and sittings.
 
 ### The mandala
 
@@ -103,6 +103,10 @@ sprite and 460 additive particles. It rotates slowly, breathes with the audio an
 file is playing, and lights a petal when a round is completed. YouTube audio is cross-origin and cannot
 be analysed; in that mode the pulse is a gentle synthetic envelope. Reduced-motion preferences stop
 the rotation.
+
+The **Background** control layers a second animated scene behind the mandala: drifting cloud banks,
+rising ocean bubbles and light shafts, or forest fireflies and mist. Each theme also recolours the
+mandala, rings, glow and particles.
 
 ## Controls
 
@@ -116,9 +120,9 @@ the rotation.
 
 ## Screenshots
 
-| Roman + English | Sync Lab | Mobile |
-| --- | --- | --- |
-| ![Roman transliteration](docs/screenshot-roman.png) | ![Sync Lab](docs/screenshot-sync.png) | ![Mobile](docs/screenshot-mobile.png) |
+| Roman + English | Forest theme | Ocean backdrop | Mobile |
+| --- | --- | --- | --- |
+| ![Roman transliteration](docs/screenshot-roman.png) | ![Forest theme](docs/screenshot-forest.png) | ![Ocean backdrop](docs/screenshot-ocean.png) | ![Mobile](docs/screenshot-mobile.png) |
 
 ## Verification
 
@@ -131,7 +135,7 @@ node scripts/verify-browser.mjs --screenshots   # also refreshes docs/screenshot
 ```
 
 `check.mjs` prints `OK <n> checks`. `verify-browser.mjs` starts its own server and exits 0 only when
-the in-app tests, DOM checks, timer transport, Sync Lab and console-error scan all pass. Node 22+ and
+the in-app tests, DOM checks, timer transport and console-error scan all pass. Node 22+ and
 Chrome/Chromium are required; set `CHROME_PATH` if Chrome is not in the usual place.
 
 The last verified run is recorded in [docs/TESTING.md](docs/TESTING.md) and

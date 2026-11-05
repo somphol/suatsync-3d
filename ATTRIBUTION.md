@@ -19,8 +19,7 @@ released under CC BY-SA 4.0 so they travel with the source text.
 - “บทสวดมนต์พระคาถาชินบัญชร 9 จบ ฉบับสมบูรณ์ดั่งเดิม” by Joao Felix
 - <https://www.youtube.com/watch?v=LAo569-mflM>
 - The video is embedded through the official YouTube IFrame API and is **not** downloaded,
-  re-hosted or redistributed. All rights remain with the creator. The embed is only created after the
-  visitor presses “Connect the video”.
+  re-hosted or redistributed. All rights remain with the creator. The player loads on page start.
 
 ## Software
 

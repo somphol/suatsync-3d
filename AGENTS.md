@@ -32,12 +32,12 @@ CHROME_PATH="/path/to/Chrome" node scripts/verify-browser.mjs
 ```
 
 `verify-browser.mjs` requires Node 22+ (built-in `WebSocket`) and starts its own server on a free port.
-It exits non-zero on any failed self-test, DOM check, interaction, Sync Lab check or uncaught console
+It exits non-zero on any failed self-test, DOM check, interaction or uncaught console
 error. Deploy is `git push origin main`; GitHub Pages serves the repository root.
 
 ## 3. Architecture
 
-Load order: `index.html` → `style.css` → CDN Three.js r128 → `script.js`. `script.js` is one
+Load order: `index.html` → `style.css` → CDN Three.js r128 → `timings.js` → `script.js`. `script.js` is one
 strict-mode IIFE in twelve numbered sections:
 
 1. **Chant dataset** — `INTRO` (3 lines), `VERSES` (15), `OUTRO` (2). Fields: `id`, `pali`, `roman`,
@@ -54,15 +54,15 @@ strict-mode IIFE in twelve numbered sections:
    by text length.
 6. **Audio engine** — `audio` object with a unified `position()` / `duration()` / `playAudio()` /
    `pauseAudio()` / `seekTo()` across YouTube (`YT.Player`), local `<audio>`, and a performance-clock
-   timer. Soft fade, volume, rate, analyser, completion chime, consent-first YouTube loader.
+   timer. Soft fade, volume, rate, analyser, completion chime, auto-loading YouTube player.
 7. **Rendering** — `cacheElements`, `applyI18n`, `renderRounds`, `renderJump`, `renderSource`,
    `renderLineList`, `renderNow`, `renderSession`, `renderStats`, `renderPlayState`, `updateTransport`.
 8. **Progress** — `processPlayback`, `markRound`, `finishSession`, `resetSession`, `clearHistory`,
    `renderHistory`, `exportPractice`, `printChant`.
-9. **3D mandala** — `initWorld`, `updatePetalStates`, `resizeWorld`, `updateWorld`; nine outer petals,
-   fifteen inner petals, core, glow sprite, rings, 460 particles; pointer parallax.
-10. **Sync Lab** — `validateMarkers`, `renderSyncRows`, `saveSync`, `resetSync`; strictly increasing
-    markers, stored locally.
+9. **3D mandala** — `initWorld`, `applyWorldTheme`, `buildAtmosphereLayers`, `applyAtmosphere`,
+   `updateAtmosphere`, `updatePetalStates`, `resizeWorld`, `updateWorld`; nine outer petals, fifteen
+   inner petals, core, glow, rings, particles, and four selectable backdrop layers.
+10. **Dialogs** — About, Summary and History; native `<dialog>` elements.
 11. **Events** — language/script toggles, source tabs, transport, line seeks, keyboard shortcuts,
     dialogs, resize, visibility. Playback accumulation is driven by a 1-second interval so it keeps
     working when `requestAnimationFrame` is throttled.
@@ -84,29 +84,31 @@ strict-mode IIFE in twelve numbered sections:
   anchors 3:38, 8:02 and 12:26 are measured; the remainder follow the same 4:24 spacing. If you
   change the video, change `NOMINAL_DURATION` and `defaultMarkers()`; custom markers stay absolute.
 - **Line timing is proportional to Pali length by default**, via `lineWeight` and `lineAt`. Exact
-  per-verse starts can be supplied in `data/timings.csv`, which builds `timings.js`; those override
-  proportional timing for complete rounds. Sync Lab calibration overrides both. Do not edit
-  `timings.js` by hand.
-- **YouTube is consent-first.** The IFrame API script and player must only be created inside
-  `connectYouTube()`, which is called by a user gesture. Do not auto-connect on boot.
+  per-verse starts are supplied in `data/timings.csv`, which builds `timings.js`; those override
+  proportional timing for complete rounds. Do not edit `timings.js` by hand.
+- **YouTube loads on start.** The player is created on boot (paused) and seeks to Round 1 verse 1.
+  `?noauto=1` disables this for tests. Do not add audible autoplay; playback still needs a gesture.
 - **Video is embedded, never downloaded or re-hosted.** Keep the credit and the outbound link.
 - **Round completion requires listening.** `processPlayback` credits at most 4 s per tick and requires
   ≥50% coverage plus reaching the round end. Do not replace this with a simple seek check.
 - **Storage schema is versioned and tolerant.** `suatsync3d.v1` normalises every field; older or
-  malformed values must not throw. Export shape is public: `settings`, `calibration`, `stats`,
-  `session`.
+  malformed values must not throw. Export shape is public: `settings`, `stats`, `session`. Appearance
+  settings (`theme`, `fontSize`, `atmosphere`) live in `settings` and are applied by `applyAppearance`.
 - **Audio starts on a gesture.** Never autoplay. Local file is kept as an object URL in the tab only.
 - **The UI is bilingual in both directions.** Every `data-i18n` key must exist in both tables; the
   self-test enforces it. Keep Thai copy natural, not literal.
 - **Accessibility is part of the contract.** Preserve skip link, focus styles, dialog semantics,
   `aria-pressed`/`aria-current`, reduced-motion and print behaviour.
-- **No tracking, cookies, webfonts or third-party analytics.** Only cdnjs (Three.js), YouTube (on
-  demand) and the user's own file.
+- **No first-party tracking, webfonts or analytics.** Only cdnjs (Three.js), YouTube (loaded on start,
+  subject to its own cookies) and the user's own file.
+- **Appearance is data, not CSS-only.** Themes recolour both the UI tokens and the Three.js palette;
+  font size uses `--font-scale`; atmosphere toggles a CSS glow plus a Three.js layer. Keep all three
+  persisted and normalised.
 
 ## 5. Known issues
 
-- Default karaoke timings are estimates. The first minute of a round can drift by tens of seconds until
-  Sync Lab is used. This is documented in the UI and [docs/CONTENT.md](docs/CONTENT.md).
+- Default karaoke timings use the measured Round 1 sheet and the same pattern for later rounds. Later
+  round anchors are inferred until measured; edit `data/timings.csv` and `defaultMarkers()`.
 - YouTube's cross-origin audio cannot feed the Web Audio analyser. The 3D pulse in YouTube mode is a
   synthetic envelope, not real frequency data. Local files do use a real analyser.
 - Headless WebGL needs SwiftShader flags; `verify-browser.mjs` passes them. Plain `--disable-gpu` can

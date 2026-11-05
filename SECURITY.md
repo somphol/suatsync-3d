@@ -21,8 +21,8 @@ attack surface is small:
 - **Third-party script:** Three.js r128 from cdnjs. A compromised CDN could run code in the page. The
   version is pinned; there is no SRI because the classic script is loaded by URL. If you need stronger
   supply-chain control, vendor a reviewed copy and update the CSP/deployment notes.
-- **YouTube iframe:** loaded only after a user presses Connect. It can set cookies under YouTube's
-  policy. The app does not read from or post to it beyond the official API.
+- **YouTube iframe:** loaded on page start and can set cookies under YouTube's policy. The app does not
+  read from or post to it beyond the official API. Use `?noauto=1` to load the page without the iframe.
 - **Local file:** selected by the user, read through an object URL, never uploaded. A malicious media
   file is handled by the browser's decoder, not by application code.
 - **localStorage:** contains only practice settings and history. It is readable by any script on the
@@ -37,7 +37,7 @@ attack surface is small:
 - Denial of service through enormous local files.
 - Browser or OS vulnerabilities.
 - Content accuracy of the chant (see [CONTENT.md](docs/CONTENT.md)).
-- The privacy practices of YouTube when the user chooses to connect it.
+- The privacy practices of YouTube, which loads with the page.
 - Missing CSP headers on GitHub Pages (Pages cannot set response headers).
 
 ## Hardening checklist for forks

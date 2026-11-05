@@ -56,11 +56,10 @@ Key: `localStorage["suatsync3d.v1"]`.
     "rate": 1,                 // 0.75–1.25
     "fade": true,
     "showVideo": true,
-    "source": "youtube"        // "youtube" | "file" | "timer"
-  },
-  "calibration": {
-    "custom": false,
-    "markers": [0, 218, 482, 746, …, 2594]   // exactly 11, strictly increasing
+    "source": "youtube",        // reset to youtube on boot
+    "theme": "midnight",        // midnight | emerald | saffron | rosewood
+    "fontSize": "medium",       // small | medium | large
+    "atmosphere": "night"       // night | clouds | ocean | forest
   },
   "session": {
     "startedAt": "ISO",
@@ -86,7 +85,7 @@ older than 24 hours is cleared on boot (lifetime stats remain).
 
 ## Timeline
 
-`Timeline` is a pure facade over `audio.duration()` and `state.calibration`.
+`Timeline` is a pure facade over `audio.duration()` and `timings.js`.
 
 | Method | Contract |
 | --- | --- |
@@ -102,9 +101,9 @@ older than 24 hours is cleared on boot (lifetime stats remain).
 
 Sections are contiguous: there is no gap. Without an explicit cue sheet, `lineAt` allocates each line
 a span proportional to `max(30, pali.length without spaces) × (weight || 1)`. With
-`data/timings.csv` → `timings.js`, complete rounds use absolute per-verse starts instead. Explicit
-starts are ignored while Sync Lab calibration is custom, so the markers remain an escape hatch. The
-generated file is loaded before `script.js` as `window.SUAT_TIMINGS`.
+`data/timings.csv` → `timings.js`, complete rounds use absolute per-verse starts instead. The
+generated file is loaded before `script.js` as `window.SUAT_TIMINGS`. There is no in-app calibration;
+the CSV is the only timing authority.
 
 ## Audio adapter
 
@@ -119,12 +118,12 @@ connectYouTube()  setSource(s)  loadFile(file)
 
 ### YouTube
 
-- `ensureYT(ok, fail)` injects `https://www.youtube.com/iframe_api` once and queues one callback.
-- `connectYouTube()` runs only from a click; it creates `YT.Player("ytMount", …)`.
-- `onReady` hides the consent placeholder, applies volume/rate, updates duration.
+- `ensureYT(ok, fail)` injects `https://www.youtube.com/iframe_api` once and queues callbacks.
+- The player is created on boot (unless `?noauto=1`), paused, and seeks to Round 1 verse 1.
+- `onReady` hides the loading placeholder, applies volume/rate, updates duration.
 - `onStateChange` mirrors playing/buffering/paused/ended; it also restores volume if the user starts
   via YouTube's own controls (which bypass the fade-in).
-- Errors and a 15-second timeout fall back to the timer message. The timer and file tabs stay usable.
+- Errors and a 15-second timeout show a reconnect button; the timer and file tabs stay usable.
 
 ### Local file
 
@@ -173,7 +172,7 @@ transport updates at ~9 fps; 3D runs every frame.
 ## 3D scene
 
 `world` holds `scene`, `camera`, `renderer`, `root`, `spin`, `inner`, `petals[9]`, `innerPetals[15]`,
-`center`, `glow`, `particles`, `pointer`, `reduced`.
+`center`, `glow`, `particles`, `halo`, `palette`, `atmospheres`, `pointer`, `reduced`.
 
 - Renderer: alpha, antialias, DPR capped at 2, no tone mapping.
 - Camera: perspective 45°, z = 10.8 desktop / 14.5 mobile, lookAt origin.
@@ -182,6 +181,9 @@ transport updates at ~9 fps; 3D runs every frame.
 - Motion: slow z rotations, core pulse from `audio.level`, glow opacity, petal scale lerp, pointer
   parallax. `prefers-reduced-motion` disables rotation.
 - State: `updatePetalStates` uses `state.session.done` and the active section.
+- Appearance: `applyWorldTheme` recolours petals, rings, core, glow, particles, halo and lights from
+  `THEMES`; `buildAtmosphereLayers` creates night stars, cloud sprites, ocean bubbles/shafts and forest
+  fireflies/beams; `applyAtmosphere` toggles one layer and CSS sets the matching stage wash.
 
 `audio.level` comes from the analyser for local files. For YouTube it is a synthetic slow envelope;
 YouTube audio is cross-origin and cannot be analysed.
@@ -202,7 +204,7 @@ YouTube audio is cross-origin and cannot be analysed.
 `window.SuatSync.runSelfTests(false)` returns `{ pass, total, failed, checks[] }`. It covers:
 
 - dataset counts and field completeness, unique ids;
-- 11 default markers, monotonicity, calibration validator;
+- 11 default markers, monotonicity, timing-sheet integrity;
 - section mapping at start, round 1, near-end and across 1001 samples;
 - line mapping at the intro, round 1 and dedication;
 - time formatting and streak arithmetic;
@@ -211,16 +213,16 @@ YouTube audio is cross-origin and cannot be analysed.
 - nine round labels, 9 pills and 11 jump buttons;
 - versioned storage key.
 
-The browser harness adds DOM, interaction and Sync Lab checks. See [TESTING.md](TESTING.md).
+The browser harness adds DOM, interaction and timing checks. See [TESTING.md](TESTING.md).
 
 ## Failure modes
 
 | Failure | Behaviour |
 | --- | --- |
 | Three.js CDN blocked | App still renders; body gets `.no-webgl`; 3D skipped |
-| YouTube blocked/offline | Consent placeholder remains; timer and local file work |
+| YouTube blocked/offline | Reconnect button appears; timer and local file work |
 | `localStorage` blocked | Practice works for the tab; a toast explains it will not persist |
 | Audio file cannot decode | Toast; source remains selected, timer still available |
 | Tab hidden | 1 s interval keeps crediting playback; full OS suspension stops it |
 | Malformed stored JSON | `readStore` ignores it; normal defaults boot |
-| Invalid calibration | Rejected on save; malformed stored data falls back to defaults |
+| Invalid timing sheet | `build-timings.mjs` refuses to write `timings.js` |

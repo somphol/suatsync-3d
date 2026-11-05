@@ -47,6 +47,19 @@ No webfonts are downloaded. This avoids a third-party request and keeps Thai ren
 trade-off is that the exact display face varies by OS; the stacks are chosen so the metrics remain
 close.
 
+## Themes, text size and atmosphere
+
+- **Themes:** Midnight (warm gold on indigo), Emerald (jade on forest black), Saffron (amber on
+  umber), Rosewood (rose gold on plum). Themes change the CSS tokens *and* the Three.js palette, so the
+  mandala, rings, glow and particles follow the interface.
+- **Text size:** three stored steps, driven by `--font-scale` (0.9 / 1 / 1.14). It scales the Pali
+  line, Roman line, translation and list text, not the whole UI.
+- **Atmosphere:** Night (star field), Clouds (drifting sprite banks), Ocean (rising bubbles and light
+  shafts), Forest (fireflies, mist and beams). Each is a Three.js layer plus a slow CSS wash on the
+  stage. The mandala remains in front; the backdrop is deliberately quieter than the chant.
+- All three settings persist in `localStorage` and are exposed in the Appearance card in the Sound
+  panel.
+
 ## Layout
 
 - Max width 1560 px, 16 px gutters, three columns: 288 px path, fluid karaoke, 336 px player.
@@ -66,8 +79,8 @@ close.
 - **Line list:** the active row is scrolled to the middle of its own container only, never the page.
 - **Click-to-seek:** any line in the list seeks to its computed start plus a fraction of a second.
 - **Round pills:** one click jumps to that round; a check mark and green hairline mean complete.
-- **Sync Lab:** numeric fields plus “Use current”; saving is explicit. A caption shows the formatted
-  time.
+- **Timing sheet:** verse cues live in `data/timings.csv`; there is no in-app calibration. The UI
+  states that timings come from the measured sheet.
 - **Focus mode:** hides the side panels and enlarges the line; the transport remains.
 - **Toasts:** single line, 2.8 s, bottom centre, above the transport.
 - **Sound:** all playback begins with a gesture. Soft fade is on by default; turning it off makes
@@ -106,7 +119,8 @@ close.
 ## What was rejected
 
 - **OrbitControls / free 3D navigation.** It would fight the reading task and add a CDN dependency.
-- **Autoplaying video.** It violates consent and mobile autoplay policy.
+- **Audible autoplay.** The video may load paused on start, but sound still begins only after a press.
+- **A second calibration screen.** The CSV is the single timing authority.
 - **Word-by-word karaoke highlighting.** Thai/Pali word segmentation is unreliable and would add false
   precision; the line is the unit of chanting.
 - **A second page for settings.** Dialogs keep the chant in place.

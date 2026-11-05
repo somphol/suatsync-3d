@@ -92,7 +92,7 @@ check("Playback speed is clamped to 0.75–1.25", js.includes("0.75, 1.25"));
 check("YouTube loads only on request", js.includes("function connectYouTube") && js.includes("yt-iframe-api"));
 check("a silent timer fallback exists", js.includes('audio.source === "timer"'));
 check("self-tests are exposed", js.includes("runSelfTests"));
-check("timeline calibration is validated", js.includes("function validateMarkers") && js.includes("calibration"));
+check("measured timing sheet is loaded", exists("data/timings.csv") && exists("timings.js") && read("timings.js").includes('"rounds"') && html.includes('src="timings.js"') && js.includes("explicitStarts"));
 check("no TODO or FIXME markers", !/\b(TODO|FIXME|XXX)\b/.test(js + css + html));
 check("no eval or Function constructor", !/\beval\s*\(|new Function\s*\(/.test(js));
 check("no hardcoded personal paths", !/\/Users\/[A-Za-z]/.test(js + css + html));
