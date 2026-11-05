@@ -117,7 +117,7 @@ for (let round = 1; round <= 9; round++) {
       console.error(`Round ${round} verse ${verse} starts at ${start}, not after the previous line (${lastStart}).`);
       process.exit(1);
     }
-    starts.push(Math.round(start * 10) / 10);
+    starts.push(Math.round(start * 100) / 100);
     lastStart = start;
   }
   output[round] = starts;
