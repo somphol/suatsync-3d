@@ -40,6 +40,15 @@ function parseCsv(text) {
   return rows;
 }
 
+function parseTime(value) {
+  const text = String(value == null ? "" : value).trim();
+  if (!text) return NaN;
+  if (/^\d+(\.\d+)?$/.test(text)) return Number(text);
+  const parts = text.split(":").map(Number);
+  if (parts.length < 2 || parts.length > 3 || parts.some((part) => !Number.isFinite(part))) return NaN;
+  return parts.reduce((total, part) => total * 60 + part, 0);
+}
+
 if (!fs.existsSync(csvPath)) {
   console.error("Missing data/timings.csv");
   process.exit(1);
@@ -61,7 +70,9 @@ rows.forEach((cells, lineNumber) => {
   if (!cells.some((cell) => cell.trim() !== "")) return;
   const round = Number(cells[index.round]);
   const verse = Number(cells[index.verse]);
-  const start = Number(cells[index.start_seconds]);
+  const rawSeconds = (cells[index.start_seconds] || "").trim();
+  const rawTime = index.start_time != null ? (cells[index.start_time] || "").trim() : "";
+  const start = parseTime(rawSeconds || rawTime);
   if (!Number.isInteger(round) || round < 1 || round > 9) {
     problems.push(`row ${lineNumber + 2}: round must be 1–9`);
     return;
@@ -71,7 +82,7 @@ rows.forEach((cells, lineNumber) => {
     return;
   }
   if (!Number.isFinite(start) || start < 0 || start > nominal) {
-    problems.push(`row ${lineNumber + 2}: start_seconds must be 0–${nominal}`);
+    problems.push(`row ${lineNumber + 2}: start_seconds must be seconds (272.4) or a clock time (4:32.4)`);
     return;
   }
   if (!rounds.has(round)) rounds.set(round, new Map());

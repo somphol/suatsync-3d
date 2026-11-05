@@ -5,15 +5,22 @@
 
 ## What to edit
 
-Change only the `start_seconds` column. It is an absolute position in the video, in seconds from
-0:00, and may have one decimal place.
+Change only the `start_seconds` column. It accepts either decimal seconds or a clock time:
+
+- `272.4`
+- `4:32.4`
+- `1:22:28.5`
+
+Leave every other column alone. `start_time`, `pali`, `roman` and `notes` are for human context and
+are ignored once `start_seconds` is filled (if `start_seconds` is blank, the build will read
+`start_time` as a fallback).
 
 | Column | Meaning |
 | --- | --- |
 | `round` | 1–9 |
 | `verse` | 1–15 |
-| `start_seconds` | **Edit this.** When the first syllable of the verse is heard |
-| `start_time` | Human-readable copy for reference; not read by the build |
+| `start_seconds` | **Edit this.** Decimal seconds or `m:ss.s` |
+| `start_time` | Human-readable reference; used only if `start_seconds` is blank |
 | `pali` | Full Thai Pali text, for identification |
 | `roman` | Full Roman transliteration |
 | `notes` | Free text, ignored by the build |
@@ -25,7 +32,7 @@ with an incomplete set are rejected by the build.
 
 1. Open the video and the studio side by side.
 2. Pause the video on the first syllable of the verse.
-3. Read the video's current time, for example `5:42` → write `342.0`.
+3. Read the video's current time, for example `5:42.4` → write `5:42.4` (or `342.4`).
 4. Or use the studio's own time display/seek bar (the timer also works).
 5. Put the value in `start_seconds` and save the CSV as UTF-8.
 

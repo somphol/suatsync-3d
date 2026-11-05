@@ -15,9 +15,9 @@ All notable changes to SuatSync 3D are recorded here. The format follows
 
 ### Added
 
-- `data/timings.csv`: an editable 9 × 15 cue sheet. Set `start_seconds` per verse, run
-  `node scripts/build-timings.mjs`, and `timings.js` drives exact line timing. Sync Lab still takes
-  precedence while active.
+- `data/timings.csv`: an editable 9 × 15 cue sheet. Set `start_seconds` per verse as `272.4` or
+  `4:32.4`, run `node scripts/build-timings.mjs`, and `timings.js` drives exact line timing. Sync Lab
+  still takes precedence while active.
 
 ## [1.0.0] — 2026-11-04
 
