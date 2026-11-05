@@ -68,14 +68,16 @@ the browser.
 
 ## Current values
 
-These are estimates derived from the default section markers and text length:
+Round 1 is measured; the same relative verse pattern is reused for all nine rounds, anchored at the
+estimated round starts:
 
-- round 1 starts at 4:00.0;
-- each round is about 9:48.6;
-- rounds 2–9 are equally spaced;
-- within a round, each verse gets time proportional to its text, with verses 9 and 15 weighted longer.
+- round 1 verse 1 starts at 3:38;
+- each round is about 9:51, with the chant pattern occupying the first 3:51;
+- round anchors: 3:38, 13:29, 23:20, 33:11, 43:02, 52:53, 1:02:44, 1:12:35, 1:22:26;
+- dedication at 1:32:17.
 
-They are not chapter data from the video. That is exactly what this file is for.
+These are a usable first pass, not chapter data from the video. Replace the round anchors in
+`script.js` (`defaultMarkers()`) or edit each row when you measure the later rounds.
 
 ## Accuracy tips
 

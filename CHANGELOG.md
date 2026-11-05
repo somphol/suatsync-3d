@@ -18,6 +18,8 @@ All notable changes to SuatSync 3D are recorded here. The format follows
 - `data/timings.csv`: an editable 9 × 15 cue sheet. Set `start_seconds` per verse as `272.4` or
   `4:32.4`, run `node scripts/build-timings.mjs`, and `timings.js` drives exact line timing. Sync Lab
   still takes precedence while active.
+- Measured Round 1 verse starts (3:38–7:29.15) are now the default. The same relative pattern is
+  reused for all nine rounds, anchored at 3:38, 13:29, 23:20 … 1:22:26.
 
 ## [1.0.0] — 2026-11-04
 

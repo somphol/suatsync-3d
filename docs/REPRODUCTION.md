@@ -95,8 +95,8 @@ is the next marker; the dedication ends at the media duration.
 
 Default values on a 5,837-second video:
 
-- intro: 0–240 s
-- nine rounds: equally spaced from 240 s to 5,537 s (≈588.6 s each)
+- intro: 0–218 s (Round 1 verse 1 begins at 3:38)
+- nine rounds: equally spaced from 218 s to 5,537 s (591 s each)
 - dedication: 5,537 s–end (≈300 s)
 
 These are guesses chosen to match the video's shape. The UI states that they are estimates until the
